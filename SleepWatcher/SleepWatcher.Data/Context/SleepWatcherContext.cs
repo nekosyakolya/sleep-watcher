@@ -11,18 +11,28 @@ namespace SleepWatcher.Data.Context
         { }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<SleepTimeSetting> SleepTimeSettings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
-                .Property(b => b.Email)
+                .Property(u => u.Email)
                 .IsRequired()
                 .HasMaxLength(254); //https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
 
             modelBuilder.Entity<User>()
             .HasKey(u => u.VkId);
+          
+            
+            modelBuilder.Entity<User>()
+            .Property(u => u.VkId)
+            .ValueGeneratedNever();
 
-            modelBuilder.Entity<User>().HasData(new User {VkId = "id01", Email = "test@gmail.com"});
+             modelBuilder.Entity<SleepTimeSetting>()
+            .HasIndex(s => new {s.BeginSleepTime, s.EndSleepTime})
+            .IsUnique();
+
+            
         }
 
     }
