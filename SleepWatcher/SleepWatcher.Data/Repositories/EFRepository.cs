@@ -4,6 +4,7 @@ using SleepWatcher.Core.Interfaces;
 using SleepWatcher.Data.Context;
 using System.Linq;
 using System;
+using System.Linq.Expressions;
 
 namespace SleepWatcher.Data.Repositories
 {
@@ -20,8 +21,11 @@ namespace SleepWatcher.Data.Repositories
         {
             var time = DateTime.Now.TimeOfDay;
             var query = from settings in _context.SleepTimeSettings
-                            where settings.BeginSleepTime.TimeOfDay <= time &&
-                                              settings.EndSleepTime.TimeOfDay > time
+                        where (settings.BeginSleepTime.TimeOfDay <= settings.EndSleepTime.TimeOfDay) ?
+                        settings.BeginSleepTime.TimeOfDay <= time &&
+                                          settings.EndSleepTime.TimeOfDay > time
+                                          : settings.BeginSleepTime.TimeOfDay <= time ||
+                                          settings.EndSleepTime.TimeOfDay >= time
                         join users in _context.Users
                                on settings.Id equals users.SleepTimeSetting.Id
                         select new User()
