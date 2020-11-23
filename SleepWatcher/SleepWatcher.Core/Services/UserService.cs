@@ -5,21 +5,30 @@ namespace SleepWatcher.Core.Services
 {
     public class UserService : IUserService
     {
-        private readonly IRepository<User> repository;
-        
-        public UserService(IRepository<User> repository)
+        private readonly IRepositoryFactory<IUserRepository> _repositoryFactory;
+
+        public UserService(IRepositoryFactory<IUserRepository> repositoryFactory)
         {
-            this.repository = repository;
+            _repositoryFactory = repositoryFactory;
         }
 
         public User GetUser(string id)
         {
-            return repository.FindById(id);
+            User user = null;
+             _repositoryFactory.ExecuteAndCommit(repository =>
+                {
+                    user = repository.FindById(id);
+                });
+            return user;
         }
 
         public void AddUser(User user)
         {
-            repository.Add(user);
+            _repositoryFactory.ExecuteAndCommit(repository =>
+                {
+                    repository.Add(user);
+                });
+
         }
     }
 }
