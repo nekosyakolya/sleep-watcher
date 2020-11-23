@@ -16,6 +16,7 @@ using SleepWatcher.Core.Interfaces;
 using SleepWatcher.Core.Entities.DTO;
 using SleepWatcher.Core.Services;
 using Microsoft.EntityFrameworkCore;
+using SleepWatcher.Core.Entities.Common;
 
 namespace SleepWatcher.Api
 {
@@ -31,12 +32,23 @@ namespace SleepWatcher.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddDbContext<SleepWatcherContext>(options =>
-                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SleepWatcher.Data")));
 
-            services.AddScoped<IRepository<User>, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
+
+            services.AddDbContext<SleepWatcherContext>(options =>
+                                options.UseSqlServer(
+                                    Configuration.GetConnectionString("DefaultConnection"),
+                                    b => b.MigrationsAssembly("SleepWatcher.Data")),
+                                ServiceLifetime.Transient,
+                                ServiceLifetime.Singleton)
+
+                    .AddSingleton<Func<SleepWatcherContext>>(srv => () => srv.GetService<SleepWatcherContext>())
+                    .AddTransient<IUserService, UserService>()
+                    .AddSingleton<Func<UserService>>(x => () => x.GetService<UserService>())
+                    .AddSingleton<IRepositoryFactory<IUserRepository>, RepositoryFactory>()
+                    .AddTransient<IUsersToSleepService, UsersToSleepService>()
+                    .AddSingleton<Func<UsersToSleepService>>(x => () => x.GetService<UsersToSleepService>())
+                    .AddSingleton<IRepositoryFactory<IUsersToSleepRepository>, RepositoryFactory>();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
