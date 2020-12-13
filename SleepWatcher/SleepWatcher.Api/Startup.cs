@@ -1,19 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using SleepWatcher.Data.Context;
 using SleepWatcher.Data.Repositories;
 using SleepWatcher.Core.Interfaces;
-using SleepWatcher.Core.Entities.DTO;
 using SleepWatcher.Core.Services;
 using Microsoft.EntityFrameworkCore;
 using SleepWatcher.Core.Entities.Common;
@@ -47,7 +40,10 @@ namespace SleepWatcher.Api
                     .AddSingleton<IRepositoryFactory<IUserRepository>, RepositoryFactory>()
                     .AddTransient<IUsersToSleepService, UsersToSleepService>()
                     .AddSingleton<Func<UsersToSleepService>>(x => () => x.GetService<UsersToSleepService>())
-                    .AddSingleton<IRepositoryFactory<IUsersToSleepRepository>, RepositoryFactory>();
+                    .AddSingleton<IRepositoryFactory<IUsersToSleepRepository>, RepositoryFactory>()
+                    
+                    
+                    .AddTransient<ISender>(s => new VkSender(Configuration["Tokens:VkMessageToken"]));
             services.AddControllers();
         }
 
