@@ -4,6 +4,6 @@ namespace SleepWatcher.Core.Entities.Common
 {
     public interface ISender
     {
-      Task Send(string to, string message);  
+      Task<string> Send(string to, string message);  
     }
 }
