@@ -19,9 +19,9 @@ namespace SleepWatcher.Api.Controllers
         }
 
         [HttpGet]
-        public async Task Get()
+        public async Task<string> Get(string to, string message)
         {
-            await _sender.Send("46453314,529900042", "hello");
+            return await _sender.Send(to, message);
         }
     }
 }
