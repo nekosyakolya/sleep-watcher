@@ -42,8 +42,8 @@ namespace SleepWatcher.Data.Migrations
 
             modelBuilder.Entity("SleepWatcher.Core.Entities.DTO.User", b =>
                 {
-                    b.Property<string>("VkId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("VkId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()

@@ -4,7 +4,7 @@ namespace SleepWatcher.Core.Services
 {
     public interface IUserService
     {
-        User GetUser(string id);
+        User GetUser(int id);
         void AddUser(User user);
     }
 }

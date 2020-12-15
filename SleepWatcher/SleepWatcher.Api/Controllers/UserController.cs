@@ -23,9 +23,9 @@ namespace SleepWatcher.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<User> Get()
+        public IEnumerable<User> Get(int id)
         {
-            yield return _userService.GetUser("id01");
+            yield return _userService.GetUser(id);
         }
     }
 }
