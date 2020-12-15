@@ -10,7 +10,7 @@ using SleepWatcher.Data.Context;
 namespace SleepWatcher.Data.Migrations
 {
     [DbContext(typeof(SleepWatcherContext))]
-    [Migration("20201117181759_Init")]
+    [Migration("20201215132406_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,8 +44,8 @@ namespace SleepWatcher.Data.Migrations
 
             modelBuilder.Entity("SleepWatcher.Core.Entities.DTO.User", b =>
                 {
-                    b.Property<string>("VkId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("VkId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()

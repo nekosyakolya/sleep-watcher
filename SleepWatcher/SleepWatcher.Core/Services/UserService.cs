@@ -12,7 +12,7 @@ namespace SleepWatcher.Core.Services
             _repositoryFactory = repositoryFactory;
         }
 
-        public User GetUser(string id)
+        public User GetUser(int id)
         {
             User user = null;
              _repositoryFactory.ExecuteAndCommit(repository =>

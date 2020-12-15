@@ -59,7 +59,7 @@ namespace SleepWatcher.Data.Repositories
             _context.SaveChanges();
         }
 
-        User IUserRepository.FindById(string id)
+        User IUserRepository.FindById(int id)
         {
             return _context.Users.FirstOrDefault(e => e.VkId == id);
         }

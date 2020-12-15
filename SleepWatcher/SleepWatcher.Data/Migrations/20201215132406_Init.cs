@@ -25,7 +25,7 @@ namespace SleepWatcher.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    VkId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    VkId = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: false),
                     SleepTimeSettingId = table.Column<int>(type: "int", nullable: true)
                 },
