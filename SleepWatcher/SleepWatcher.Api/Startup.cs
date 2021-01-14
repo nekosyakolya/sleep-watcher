@@ -43,7 +43,8 @@ namespace SleepWatcher.Api
                     .AddSingleton<IRepositoryFactory<IUsersToSleepRepository>, RepositoryFactory>()
                     
                     
-                    .AddTransient<ISender>(s => new VkSender(Configuration["Tokens:VkMessageToken"]));
+                    .AddTransient<ISender>(s => new VkSender(Configuration["Tokens:VkMessageToken"]))
+                    .AddTransient<IResponseHandler, VkResponseHandler>();
             services.AddControllers();
         }
 
