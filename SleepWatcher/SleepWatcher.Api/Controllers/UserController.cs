@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SleepWatcher.Core.Services;
 using SleepWatcher.Core.Entities.DTO;
+using System.Linq;
 
 namespace SleepWatcher.Api.Controllers
 {
@@ -26,6 +27,19 @@ namespace SleepWatcher.Api.Controllers
         public IEnumerable<User> Get(int id)
         {
             yield return _userService.GetUser(id);
+        }
+
+        [HttpPost]
+        public IActionResult SaveUser([FromBody] User data)
+        {
+            var properties = data.GetType().GetProperties();
+            if (properties.Any(propertyInfo => propertyInfo.GetValue(data) == null))
+            {
+                return BadRequest();
+            }
+
+            _userService.AddUser(data);
+            return Ok();
         }
     }
 }
