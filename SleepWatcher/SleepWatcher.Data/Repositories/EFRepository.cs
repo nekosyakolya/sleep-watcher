@@ -56,7 +56,6 @@ namespace SleepWatcher.Data.Repositories
             }
 
             _context.Users.Add(user);
-            _context.SaveChanges();
         }
 
         User IUserRepository.FindById(int id)
