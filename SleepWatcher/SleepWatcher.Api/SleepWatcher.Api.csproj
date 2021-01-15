@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.0" />
     <ProjectReference Include="..\SleepWatcher.Data\SleepWatcher.Data.csproj" />
     <ProjectReference Include="..\SleepWatcher.Core\SleepWatcher.Core.csproj" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
