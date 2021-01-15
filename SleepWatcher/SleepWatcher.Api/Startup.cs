@@ -35,16 +35,14 @@ namespace SleepWatcher.Api
                                 ServiceLifetime.Singleton)
 
                     .AddSingleton<Func<SleepWatcherContext>>(srv => () => srv.GetService<SleepWatcherContext>())
-                    .AddTransient<IUserService, UserService>()
-                    .AddSingleton<Func<UserService>>(x => () => x.GetService<UserService>())
+                    .AddSingleton<IUserService, UserService>()
                     .AddSingleton<IRepositoryFactory<IUserRepository>, RepositoryFactory>()
-                    .AddTransient<IUsersToSleepService, UsersToSleepService>()
-                    .AddSingleton<Func<UsersToSleepService>>(x => () => x.GetService<UsersToSleepService>())
+                    .AddSingleton<IUsersToSleepService, UsersToSleepService>()
                     .AddSingleton<IRepositoryFactory<IUsersToSleepRepository>, RepositoryFactory>()
                     
                     
-                    .AddTransient<ISender>(s => new VkSender(Configuration["Tokens:VkMessageToken"]))
-                    .AddTransient<IResponseHandler, VkResponseHandler>();
+                    .AddSingleton<ISender>(s => new VkSender(Configuration["Tokens:VkMessageToken"]))
+                    .AddSingleton<IResponseHandler, VkResponseHandler>();
             services.AddControllers();
         }
 
