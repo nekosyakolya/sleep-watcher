@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
@@ -18,7 +19,13 @@ namespace SleepWatcher.Core.Entities.Common
         public IEnumerable GetResult(string response)
         {
             var result = JsonSerializer.Deserialize<Response>(response);
-            foreach (var item in result.response)
+            var tmp = result?.response;
+
+            if (tmp == null)
+            {
+                throw new ArgumentNullException(nameof(tmp), "Name cannot be null");
+            }
+            foreach (var item in tmp)
             {
                 if (item.error == null)
                 {
