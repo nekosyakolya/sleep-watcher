@@ -14,5 +14,11 @@ namespace SleepWatcher.UnitTests.Core.Entities
         {
             _vkResponseHandler = new VkResponseHandler();
         }
+
+        [Test]
+        public void GetResult_JsonIsIncorrect_ThrowsJsonException()
+        {
+           Assert.Throws<System.Text.Json.JsonException>(() => _vkResponseHandler.GetResult("Hello"));
+        }
     }
 }
