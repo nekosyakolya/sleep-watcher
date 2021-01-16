@@ -12,20 +12,26 @@ namespace SleepWatcher.Core.Entities.Common
             public int peer_id { get; set; }
             public object error { get; set; }
         }
-        private class Response
+        private class Container
         {
             public List<Item> response { get; set; }
         }
+
         public IEnumerable GetResult(string response)
         {
-            var result = JsonSerializer.Deserialize<Response>(response);
-            var tmp = result?.response;
-
-            if (tmp == null)
+            var container = JsonSerializer.Deserialize<Container>(response);
+            var items = container?.response;
+            if (items == null)
             {
-                throw new ArgumentNullException(nameof(tmp), "Name cannot be null");
+                throw new ArgumentException("Incorrect json");
             }
-            foreach (var item in tmp)
+
+            return GetResult(items);
+        }
+
+        private IEnumerable GetResult(List<Item> items)
+        {
+            foreach (var item in items)
             {
                 if (item.error == null)
                 {
