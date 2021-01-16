@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
@@ -11,14 +12,26 @@ namespace SleepWatcher.Core.Entities.Common
             public int peer_id { get; set; }
             public object error { get; set; }
         }
-        private class Response
+        private class Container
         {
             public List<Item> response { get; set; }
         }
+
         public IEnumerable GetResult(string response)
         {
-            var result = JsonSerializer.Deserialize<Response>(response);
-            foreach (var item in result.response)
+            var container = JsonSerializer.Deserialize<Container>(response);
+            var items = container?.response;
+            if (items == null)
+            {
+                throw new ArgumentException("Incorrect json");
+            }
+
+            return GetResult(items);
+        }
+
+        private IEnumerable GetResult(List<Item> items)
+        {
+            foreach (var item in items)
             {
                 if (item.error == null)
                 {
